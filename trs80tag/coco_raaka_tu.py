@@ -4,6 +4,8 @@ from MC6809.components.cpu6809 import CPU
 from MC6809.components.memory import Memory
 from MC6809.core.configs import BaseConfig
 
+import random
+
 class CoCoRaakaTu:
     
     def __init__(self):
@@ -32,6 +34,36 @@ class CoCoRaakaTu:
         #
         self.cpu = CPU(memory, cfg)
         self.still_running = False
+        
+        self.buffer = ''
+        self.cols = 32
+        
+    def print_char(self,c):        
+        if c == '\r' or c == '\n':
+            self.print_flush()
+        else:
+            self.buffer = self.buffer + c
+    
+    
+    def print_flush(self): 
+        while True:
+    
+            self.buffer = self.buffer.strip()
+    
+            if len(self.buffer) <= self.cols:
+                print(self.buffer)
+                self.buffer = ''
+                return
+    
+            if self.buffer[self.cols] == ' ':
+                print(self.buffer[0:self.cols])
+                self.buffer = self.buffer[self.cols:]
+            else:
+                i = self.buffer[0:self.cols].rfind(' ')
+                if i < 0:
+                    i = self.cols
+                print(self.buffer[:i])
+                self.buffer = self.buffer[i:]
     
     def show_error_message(self):
         '''Instead of flashing in place
@@ -70,9 +102,7 @@ class CoCoRaakaTu:
         '''Print a character
         '''
         
-        # TODO buffer to return
-        # word break according to requested console size
-        print(s,end='')      
+        self.print_char(s)     
     
     def read_memory(self,_cycles,frm,addr):
                 
@@ -87,7 +117,13 @@ class CoCoRaakaTu:
             self.simulate_coco_print(chr(self.cpu.accu_a.value))        
             return 0x39
         
-        # TODO: random value
+        # The wait-for-key calls this routine to roll the random number. Since we
+        # are eating that spin-wait, we'll provide random numbers here.
+        #
+        if addr==0x12A8:
+            self.binary[0x1338] = random.randint(0,255)
+            self.cpu.accu_a.set(random.randint(0,255))
+            return 0x39
         
         # This bypasses the built in 32-column management. We'll handle word-breaks in
         # the print routine, which allows for any size console.
@@ -111,7 +147,7 @@ class CoCoRaakaTu:
         # This is the infinite loop when the player does a QUIT.
         # We'll abort the running program
         #
-        if addr==0x10B5:
+        if addr==0x10B5:                   
             self.still_running = False
             return 0x20
             
@@ -143,3 +179,4 @@ if __name__ == '__main__':
     
     game = CoCoRaakaTu()
     game.run_forever()    
+    game.print_flush()
