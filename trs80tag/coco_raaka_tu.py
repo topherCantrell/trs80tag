@@ -5,11 +5,13 @@ from MC6809.components.memory import Memory
 from MC6809.core.configs import BaseConfig
 
 import random
+import os
 
 class CoCoRaakaTu:
     
     def __init__(self):
-        with open('coco_raaka_tu.bin','rb') as f:
+        fn = os.path.join(os.path.dirname(__file__),'coco_raaka_tu.bin')
+        with open(fn,'rb') as f:
             self.binary = f.read()    
         self.binary = list(b'\x00' * 0x600 + self.binary)
         
@@ -157,7 +159,7 @@ class CoCoRaakaTu:
             # print('.. '+hex(addr)+' @'+hex(frm)+' <'+hex(self.binary[addr]))
             return self.binary[addr]
         
-        raise Exception(f'## UNHANDLED READ from={hex(frm)} destination={hex(addr)}')    
+        raise Exception('## UNHANDLED READ from=' + hex(frm) + ' destination=' + hex(addr))    
     
     def write_memory(self,_cycles,frm,addr,value):
          
@@ -166,7 +168,7 @@ class CoCoRaakaTu:
             self.binary[addr] = value
             return
             
-        raise Exception(f'## UNHANDLED WRITE from={hex(frm)} destination={hex(addr)} value={hex(value)}')
+        raise Exception('## UNHANDLED WRITE from'+hex(frm)+' destination='+hex(addr)+' value='+hex(value))
     
     def run_forever(self):
     
