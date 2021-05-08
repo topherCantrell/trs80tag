@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="trs80tag",  # Replace with your own username
-    version="1.5",
+    version="1.10.1",
     author="Chris Cantrell",
     author_email="topherCantrell@gmail.com",
     description="Classic text adventures from the CoCo and TRS80 Model 1",
@@ -24,7 +24,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     install_requires=[
         'MC6809'
     ],
