@@ -1,7 +1,7 @@
 from trs80tag.coco_raaka_tu import CoCoRaakaTu
 
 import sys
-from coco_bedlam import CoCoBedlam
+from trs80tag.coco_bedlam import CoCoBedlam
 
 # trs80tag coco_raaka_tu colums=32 banner=true
 

@@ -105,7 +105,7 @@ class CoCoRaakaTu:
         p = 0x5E0  # Start of the bottom row
         for c in user_input:
             c = ord(c)
-            if c == 0x32:        
+            if c == 32:        
                 self.binary[p] = 96
                 p += 1
             elif c>=65 and c<=90:
@@ -113,12 +113,15 @@ class CoCoRaakaTu:
                 p += 1
             if p>=0x5FF:
                 break
+
+        #for p in range(0x5E0,0x5E0+32):
+        #    print(self.binary[p])
             
     def simulate_coco_print(self,s):
         '''Print a character
         '''
         
-        print('##',s)
+        #print('##',s)
         
         self.print_char(s)     
     

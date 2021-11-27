@@ -3,6 +3,7 @@ import setuptools
 # https://packaging.python.org/tutorials/packaging-projects/
 
 # From the directory with this file
+#   update the version below
 #   py setup.py sdist bdist_wheel
 #   py -m twine upload dist/*
 
@@ -11,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="trs80tag",  # Replace with your own username
-    version="1.10.1",
+    version="1.10.2",
     author="Chris Cantrell",
     author_email="topherCantrell@gmail.com",
     description="Classic text adventures from the CoCo and TRS80 Model 1",
